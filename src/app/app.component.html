@@ -1,0 +1,11 @@
+<div class="page-frame page-fixed">
+  <div class="page-header">
+    <si-navbar-primary [primaryItems]="primaryLinks" settingsLink="about"></si-navbar-primary>
+  </div>
+
+  <div class="page-work-area">
+    <router-outlet></router-outlet>
+  </div>
+
+  <si-footer copyright="Siemens 2018" [links]="footerLinks"></si-footer>
+</div>
