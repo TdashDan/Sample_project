@@ -1,0 +1,13 @@
+# See https://docs.docker.com/v1.5/reference/builder/#the-dockerignore-file for more info.
+
+# Reduce image size by not including git meta data.
+.git
+
+# Ensure we use a clean set of Node modules.
+node_modules/
+
+# Reduce needed rebuilds.
+Dockerfile
+
+# Ensure we use a clean build.
+dist

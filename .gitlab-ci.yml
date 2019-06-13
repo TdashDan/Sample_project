@@ -1,0 +1,40 @@
+image: node:carbon-alpine
+
+variables:
+  CHROMEDRIVER_CDNURL: https://devops.bt.siemens.com/artifactory/simple/libs-external/npmBinaries/chromedriver
+  NPM_CONFIG_REGISTRY: https://devops.bt.siemens.com/artifactory/api/npm/npm-all
+  NPM_CONFIG_SASS_BINARY_SITE: https://devops.bt.siemens.com/artifactory/simple/libs-external/npmBinaries/node-sass
+  NPM_CONFIG_CHROMEDRIVER_CDNURL: https://devops.bt.siemens.com/artifactory/simple/libs-external/npmBinaries/chromedriver
+  SELENIUM_URL: http://selenium__standalone-chrome:4444/wd/hub
+  PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: "true"
+
+test:
+  stage: test
+  services:
+    - selenium/standalone-chrome:3.11.0
+  script:
+    - npm install
+    - npm run lint
+    - npm run test -- --progress=false --code-coverage
+    - npm run e2e -- --host=$(hostname -i)
+    - npm run build:prod -- --progress=false
+  artifacts:
+    expire_in: 3h
+    paths:
+      - dist/
+  tags:
+    - DOCKER
+
+pages:
+  stage: deploy
+  script:
+    - mv dist/marengosample public
+  dependencies:
+    - test
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
+  tags:
+     - DOCKER

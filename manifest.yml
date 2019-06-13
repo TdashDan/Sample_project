@@ -1,0 +1,6 @@
+applications:
+  - name: chiprabhuwebsimp
+    buildpack: nodejs_buildpack
+    memory: 50MB
+    disk_quota: 250MB
+    command: npm start
